@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Movies</string>
+
+    <string name="title_activity_movie_detail_info">MovieDetailInfoActivity</string>
+    <string name="popular_movies">Popular Movies</string>
+    <string name="highly_rated">Highly Rated</string>
+    <string name="title">Title : </string>
+    <string name="user_rating">User Rating : </string>
+    <string name="overview">Overview : \n</string>
+    <string name="release_date">Release Date : </string>
+</resources>
