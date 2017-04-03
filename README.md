@@ -7,4 +7,4 @@ signing up the account and include the key in the following file.
 
 File Name : gradle.properties
 
-i.e. API_KEY="<API KEY HERE>"
+i.e. API_KEY="API KEY HERE"
