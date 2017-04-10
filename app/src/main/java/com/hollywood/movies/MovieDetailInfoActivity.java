@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.hollywood.movies.model.MovieDetailInfo;
@@ -19,10 +20,15 @@ import info.movito.themoviedbapi.model.MovieDb;
 
 public class MovieDetailInfoActivity extends AppCompatActivity {
 
+    private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail_info);
+
+        progressBar = (ProgressBar) findViewById(R.id.progressBarDetailView);
+        progressBar.setVisibility(View.VISIBLE);
 
         Intent intent = getIntent();
 
@@ -33,7 +39,7 @@ public class MovieDetailInfoActivity extends AppCompatActivity {
             movieDetailInfo = intent.getParcelableExtra(Intent.EXTRA_TEXT);
         }
 
-        TextView titleView = (TextView) findViewById(R.id.movie_title);
+       TextView titleView = (TextView) findViewById(R.id.movie_title);
         ImageView movieImageView = (ImageView) findViewById(R.id.movie_image_view);
         TextView movieRatingView = (TextView) findViewById(R.id.movie_rating);
         TextView movieOverview = (TextView) findViewById(R.id.movie_overview);
@@ -48,6 +54,7 @@ public class MovieDetailInfoActivity extends AppCompatActivity {
         movieRatingView.setText(getResString(R.string.user_rating)+String.valueOf(movieDetailInfo.getRating()));
         movieOverview.setText(getResString(R.string.overview) +movieDetailInfo.getOverview());
         movieReleaseDate.setText(getResString(R.string.release_date)+movieDetailInfo.getReleaseDate());
+        progressBar.setVisibility(View.INVISIBLE);
 
     }
 

@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<ScrollView android:layout_height="wrap_content" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginBottom="5dp"
-    android:layout_marginStart="10dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginEnd="10dp"
+    android:layout_marginBottom="@dimen/margin_medium"
+    android:layout_marginStart="@dimen/margin_large"
+    android:layout_marginTop="@dimen/margin_medium"
+    android:layout_marginEnd="@dimen/margin_large"
     >
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/movie_image_view"
         android:layout_gravity="top|left"
-        android:padding="5dp"
+        android:padding="@dimen/text_padding"
 />
 
     <!-- this layout contains title, year, rating and popularity -->
@@ -28,9 +31,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/movie_title"
             android:text="Title"
-            android:textSize="20dp"
+            android:textSize="@dimen/text_size"
             android:textStyle="bold"
-            android:padding="5dp"
+            android:padding="@dimen/text_padding"
             />
 
 
@@ -38,26 +41,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/movie_rating"
-            android:textSize="20dp"
-            android:padding="5dp"
+            android:textSize="@dimen/text_size"
+            android:padding="@dimen/text_padding"
             android:textStyle="bold"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/movie_release_date"
-            android:textSize="20dp"
-            android:padding="5dp"
+            android:textSize="@dimen/text_size"
+            android:padding="@dimen/text_padding"
             android:textStyle="bold"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/movie_overview"
-            android:textSize="20dp"
-            android:padding="5dp"
+            android:textSize="@dimen/text_size"
+            android:padding="@dimen/text_padding"
             android:textStyle="bold"/>
 
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/progressBarDetailView"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"/>
+
 </LinearLayout>
+</ScrollView>

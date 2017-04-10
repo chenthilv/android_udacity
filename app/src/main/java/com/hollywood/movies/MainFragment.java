@@ -15,11 +15,14 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hollywood.movies.adapter.MovieAdapter;
 import com.hollywood.movies.model.MovieDetailInfo;
+import com.hollywood.movies.task.AsyncTaskCompleteListener;
+import com.hollywood.movies.task.FetchMoviesTask;
 
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbMovies;
@@ -34,6 +37,7 @@ public class MainFragment extends Fragment implements MovieAdapter.MovieDetailVi
 
     private MovieAdapter movieAdapter;
     String API_KEY = BuildConfig.API_KEY;
+    private ProgressBar progressBar;
 
     public MainFragment() {
         // Required empty public constructor
@@ -46,6 +50,8 @@ public class MainFragment extends Fragment implements MovieAdapter.MovieDetailVi
         View fragmentView = inflater.inflate(R.layout.fragment_main,container,false);
 
         RecyclerView recyclerView = (RecyclerView) fragmentView.findViewById(R.id.recyler_view);
+
+        progressBar = (ProgressBar) fragmentView.findViewById(R.id.progressBar);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(),2);
 
@@ -81,33 +87,27 @@ public class MainFragment extends Fragment implements MovieAdapter.MovieDetailVi
     }
 
     public void sortMovies(String soryBy){
-        new FetchMovieTask().execute(soryBy, API_KEY);
+        progressBar.setVisibility(View.VISIBLE);
+        new FetchMoviesTask(this.getContext(),new FetchMoviesOnTaskCompleteListener()).execute(soryBy, API_KEY);
     }
 
-    class FetchMovieTask extends AsyncTask<String, String, MovieResultsPage>{
 
 
+    // Fetch the movies using async task
+
+    public class FetchMoviesOnTaskCompleteListener implements AsyncTaskCompleteListener {
         @Override
-        protected MovieResultsPage doInBackground(String... params) {
+        public void onTaskComplete(Object result) {
 
-            TmdbApi tmdbApi = new TmdbApi(params[1]);
-            TmdbMovies movies = tmdbApi.getMovies();
-            if(params[0].equals("highlyRated")){
-                return movies.getTopRatedMovies("en",1);
-            }else if(params[0].equals("popularMovies")){
-                return movies.getPopularMovies("en",1);
-            }else {
-
-                return movies.getNowPlayingMovies("en", 1);
+            if(result instanceof MovieResultsPage){
+                MovieResultsPage movies = (MovieResultsPage) result;
+                movieAdapter.loadMovies(movies);
             }
-
-        }
-
-        @Override
-        protected void onPostExecute(MovieResultsPage movies){
-            movieAdapter.loadMovies(movies);
+            progressBar.setVisibility(View.INVISIBLE);
 
         }
     }
+
+
 
 }
