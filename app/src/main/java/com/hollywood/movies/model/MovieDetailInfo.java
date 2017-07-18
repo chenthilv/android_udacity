@@ -9,20 +9,24 @@ import android.os.Parcelable;
 
 public class MovieDetailInfo implements Parcelable {
 
+    private long movieId;
     private String title;
     private float rating;
     private String moviePosterPath;
     private String overview;
     private String releaseDate;
+    private int runTime;
 
     public MovieDetailInfo(){}
 
     protected MovieDetailInfo(Parcel in) {
+        movieId = in.readLong();
         title = in.readString();
         rating = in.readFloat();
         moviePosterPath = in.readString();
         overview = in.readString();
         releaseDate = in.readString();
+        runTime = in.readInt();
     }
 
     public static final Creator<MovieDetailInfo> CREATOR = new Creator<MovieDetailInfo>() {
@@ -36,6 +40,14 @@ public class MovieDetailInfo implements Parcelable {
             return new MovieDetailInfo[size];
         }
     };
+
+    public long getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(long movieId) {
+        this.movieId = movieId;
+    }
 
     public String getTitle() {
         return title;
@@ -77,6 +89,14 @@ public class MovieDetailInfo implements Parcelable {
         this.releaseDate = releaseDate;
     }
 
+    public int getRunTime() {
+        return runTime;
+    }
+
+    public void setRunTime(int runTime) {
+        this.runTime = runTime;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -84,10 +104,12 @@ public class MovieDetailInfo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(movieId);
         dest.writeString(title);
         dest.writeFloat(rating);
         dest.writeString(moviePosterPath);
         dest.writeString(overview);
         dest.writeString(releaseDate);
+        dest.writeInt(runTime);
     }
 }

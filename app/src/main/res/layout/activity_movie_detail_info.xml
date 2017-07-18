@@ -1,67 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView android:layout_height="wrap_content" android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_marginBottom="@dimen/margin_medium"
-    android:layout_marginStart="@dimen/margin_large"
-    android:layout_marginTop="@dimen/margin_medium"
-    android:layout_marginEnd="@dimen/margin_large"
     >
-    <ImageView
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"/>
+
+
+    <TextView android:id="@+id/movie_headline"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@color/colorHeader"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:text="MAD MAX"
+        android:paddingTop="55dp"
+        android:textColor="#E0F2F1"
+        android:paddingLeft="10dp"
+        android:textStyle="bold|italic"
+        />
+
+    <ImageView android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+        android:adjustViewBounds="true"
         android:id="@+id/movie_image_view"
-        android:layout_gravity="top|left"
         android:padding="@dimen/text_padding"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/movie_headline"
 />
 
-    <!-- this layout contains title, year, rating and popularity -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/movie_title"
-            android:text="Title"
-            android:textSize="@dimen/text_size"
-            android:textStyle="bold"
-            android:padding="@dimen/text_padding"
-            />
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/movie_rating"
-            android:textSize="@dimen/text_size"
-            android:padding="@dimen/text_padding"
-            android:textStyle="bold"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/movie_release_date"
             android:textSize="@dimen/text_size"
-            android:padding="@dimen/text_padding"
-            android:textStyle="bold"/>
+            app:layout_constraintLeft_toRightOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/movie_headline"
+            />
+
+
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/movie_overview"
+            android:id="@+id/movie_time"
             android:textSize="@dimen/text_size"
-            android:padding="@dimen/text_padding"
-            android:textStyle="bold"/>
+            android:layout_marginTop="20dp"
+            app:layout_constraintLeft_toRightOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/movie_release_date"
+            />
 
-    </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/movie_rating"
+            android:textSize="@dimen/text_size"
+            app:layout_constraintLeft_toRightOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/movie_release_date"
+            />
+
+
+
+
+
 
     <ProgressBar
         android:id="@+id/progressBarDetailView"
@@ -70,7 +84,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        tools:layout_editor_absoluteY="324dp"
+        tools:layout_editor_absoluteX="0dp" />
 
-</LinearLayout>
-</ScrollView>
+
+
+</android.support.constraint.ConstraintLayout>
+
+
+</layout>
+

@@ -28,9 +28,9 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if(id == R.id.highly_rated){
-            mainFragment.sortMovies("highlyRated");
+            mainFragment.loadMovies("highlyRated");
         }else if(id == R.id.popular_movies){
-            mainFragment.sortMovies("popularMovies");
+            mainFragment.loadMovies("popularMovies");
         }
 
         return super.onOptionsItemSelected(item);

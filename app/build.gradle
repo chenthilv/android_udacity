@@ -27,6 +27,8 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/LICENSE'
     }
+
+    dataBinding.enabled = true
 }
 
 dependencies {
@@ -42,6 +44,8 @@ dependencies {
     compile 'info.movito:themoviedbapi:1.4'
     compile 'com.android.support:support-v4:25.2.0'
     compile 'com.android.support:design:25.2.0'
+    compile 'com.android.support:gridlayout-v7:25.2.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }
 
