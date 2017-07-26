@@ -32,7 +32,7 @@ import info.movito.themoviedbapi.model.core.MovieResultsPage;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MoviewViewHolder> {
 
-private MovieDetailViewHandler onClickHandler;
+    private MovieDetailViewHandler onClickHandler;
 
     private List<MovieDb> movieList = new ArrayList<>();
 
@@ -81,7 +81,6 @@ private MovieDetailViewHandler onClickHandler;
         }
 
         void bind(MovieDb movieDb){
-
 
             Picasso.with(imageView.getContext())
                     .load(BuildConfig.POSTER_PATH+movieDb.getPosterPath())

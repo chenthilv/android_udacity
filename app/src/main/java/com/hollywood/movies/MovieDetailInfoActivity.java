@@ -13,7 +13,6 @@ public class MovieDetailInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail_main);
-        System.out.println("**** Movie detail info activity called ******");
     }
 
    /* public String getResString(int resourceId){

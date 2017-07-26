@@ -99,24 +99,16 @@ public class MainFragment extends Fragment implements
 
         Intent intent = new Intent(context,movieDetailInfoActivityClass);
 
-        /*TmdbApi tmdbApi = new TmdbApi(API_KEY);
-        MovieDb movie = tmdbApi.getMovies().getMovie(movieDb.getId(), "en",
-                TmdbMovies.MovieMethod.trailers, TmdbMovies.MovieMethod.reviews, TmdbMovies.MovieMethod.videos);*/
-
-        MovieDetailInfo movieDetailInfo = new MovieDetailInfo();
+       /* MovieDetailInfo movieDetailInfo = new MovieDetailInfo();
         movieDetailInfo.setTitle(movieDb.getTitle());
         movieDetailInfo.setMoviePosterPath(movieDb.getPosterPath());
         movieDetailInfo.setOverview(movieDb.getOverview());
         movieDetailInfo.setRating(movieDb.getVoteAverage());
         movieDetailInfo.setReleaseDate(movieDb.getReleaseDate());
         movieDetailInfo.setRunTime(movieDb.getRuntime());
+        movieDetailInfo.setMovieId(movieDb.getId());*/
 
-
-        //System.out.println("Reviews========"+movie.getReviews());
-
-        //System.out.println("Videos========"+movie.getVideos().get(0).getId());
-
-        intent.putExtra(Intent.EXTRA_TEXT,movieDetailInfo);
+        intent.putExtra("movieId",movieDb.getId());
 
         startActivity(intent);
 
