@@ -31,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
             mainFragment.loadMovies("highlyRated");
         }else if(id == R.id.popular_movies){
             mainFragment.loadMovies("popularMovies");
+        }else if(id == R.id.favorite_button){
+            System.out.println("fav button clicked******");
+            mainFragment.loadMovies("favouriteMovies");
         }
 
         return super.onOptionsItemSelected(item);

@@ -4,13 +4,19 @@
     >
     <item
         android:id="@+id/highly_rated"
-        android:orderInCategory="100"
+        android:orderInCategory="1"
         android:title="@string/highly_rated"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/popular_movies"
-        android:orderInCategory="100"
+        android:orderInCategory="2"
         android:title="@string/popular_movies"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/favorite_button"
+        android:orderInCategory="3"
+        android:title="Favourite"
         app:showAsAction="never" />
 </menu>

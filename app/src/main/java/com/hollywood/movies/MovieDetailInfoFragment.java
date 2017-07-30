@@ -3,6 +3,7 @@ package com.hollywood.movies;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.ActivityNotFoundException;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.Loader;
 import android.databinding.DataBindingUtil;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.hollywood.movies.adapter.ReviewAdapter;
 
 import com.hollywood.movies.adapter.TrailerAdapter;
+import com.hollywood.movies.data.FavMoviesContract;
 import com.hollywood.movies.loader.FetchMoreMovieInfoLoader;
 import com.hollywood.movies.model.MovieDetailInfo;
 import com.squareup.picasso.Picasso;
@@ -35,6 +37,7 @@ import static android.R.attr.data;
 import static android.R.attr.id;
 import static com.hollywood.movies.R.id.progressBar;
 import static java.lang.System.load;
+import com.hollywood.movies.data.FavMoviesContract.FavMoviesEntry;
 
 /**
  * Created by chenthil on 7/16/17.
@@ -97,7 +100,7 @@ public class MovieDetailInfoFragment extends Fragment implements LoaderManager.L
         return fragmentView;
     }
 
-    private void loadMovieInfoFragment(MovieDb movieDb){
+    private void loadMovieInfoFragment(final MovieDb movieDb){
 
 
         ((TextView)fragmentView.findViewById(R.id.movie_time)).setText(String.valueOf(movieDb.getRuntime()));
@@ -112,22 +115,31 @@ public class MovieDetailInfoFragment extends Fragment implements LoaderManager.L
         ((TextView)fragmentView.findViewById(R.id.movie_release_date)).setText(movieDb.getReleaseDate());
         ((TextView)fragmentView.findViewById(R.id.movie_headline)).setText(movieDb.getTitle());
         ((TextView)fragmentView.findViewById(R.id.movie_overview)).setText(movieDb.getOverview());
+        ImageView favImageView = (ImageView) fragmentView.findViewById(R.id.favorite_button);
 
+        favImageView.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                saveFavouriteMovies(movieDb);
+            }
+        });
+
+    }
+
+    private void saveFavouriteMovies(MovieDb movieDb){
+        System.out.println("Favorite movie---->"+movieDb.getTitle());
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(FavMoviesEntry.COLUMN_MOVIE_ID, movieDb.getId());
+/*        contentValues.put(FavMoviesEntry.COLUMN_POSTER_PATH, movieDb.getPosterPath());
+        contentValues.put(FavMoviesEntry.COLUMN_RATING, movieDb.getUserRating());
+        contentValues.put(FavMoviesEntry.COLUMN_RUN_TIME, movieDb.getRuntime());
+        contentValues.put(FavMoviesEntry.COLUMN_RELEASE_DATE, movieDb.getReleaseDate());
+        contentValues.put(FavMoviesEntry.COLUMN_TITLE, movieDb.getTitle());
+        contentValues.put(FavMoviesEntry.COLUMN_REVIEWS, movieDb.getReviews());*/
 
     }
 
-    private void loadTrailerFragment(){}
-
-    private void loadReviewFragment(int movieId){
-
-        LoaderManager loaderManager = getActivity().getLoaderManager();
-
-        Bundle bundle = new Bundle();
-        bundle.putInt("movieId", movieId);
-
-        loaderManager.initLoader(MOVIE_REVIEW_LOADER, bundle, this);
-
-    }
 
     @Override
     public Loader<MovieDb> onCreateLoader(int id, Bundle args) {

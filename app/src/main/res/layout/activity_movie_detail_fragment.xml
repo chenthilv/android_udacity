@@ -36,16 +36,6 @@
             android:textStyle="bold|italic"
             />
 
-        <ImageButton
-            android:id="@+id/favorite_button"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:src="@android:drawable/btn_star"
-            android:background="#00ffffff"
-            app:layout_constraintLeft_toRightOf="@+id/movie_headline"
-
-            />
-
         <ImageView android:layout_height="0dp"
             android:layout_width="wrap_content"
             android:id="@+id/movie_image_view"
@@ -64,6 +54,17 @@
             android:layout_marginTop="40dp"
             app:layout_constraintLeft_toRightOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/movie_headline"
+            />
+
+        <ImageButton
+            android:id="@+id/favorite_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/btn_star"
+            android:background="#00ffffff"
+            app:layout_constraintLeft_toRightOf="@+id/guideline"
+            app:layout_constraintRight_toRightOf="@+id/movie_release_date"
+            android:onClick=""
             />
 
         <TextView

@@ -8,9 +8,11 @@ import android.content.Context;
 import android.content.Intent;
 
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -40,7 +42,8 @@ import static com.hollywood.movies.R.id.progressBar;
  * A simple {@link Fragment} subclass.
  */
 public class MainFragment extends Fragment implements
-        MovieAdapter.MovieDetailViewHandler, LoaderManager.LoaderCallbacks<MovieResultsPage> {
+        MovieAdapter.MovieDetailViewHandler, LoaderManager.LoaderCallbacks<MovieResultsPage>
+        {
 
 
     private MovieAdapter movieAdapter;
@@ -83,7 +86,8 @@ public class MainFragment extends Fragment implements
         bundle.putString("sortBy", sortBy);
 
         progressBar.setVisibility(View.VISIBLE);
-        if(StringUtils.isEmpty(sortBy)) {
+
+        if(loaderManager.getLoader(MOVIE_IMAGE_LOADER) == null) {
             loaderManager.initLoader(MOVIE_IMAGE_LOADER, bundle, this);
         }else{
             loaderManager.restartLoader(MOVIE_IMAGE_LOADER,bundle,this);

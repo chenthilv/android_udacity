@@ -57,8 +57,10 @@ public class FetchMovieInfoLoader extends AsyncTaskLoader<MovieResultsPage> {
                 return movies.getTopRatedMovies("en", 1);
             } else if ("popularMovies".equals(sortBy)) {
                 return movies.getPopularMovies("en", 1);
-            } else {
+            } else if ("favouriteMovies".equals(sortBy)) {
 
+                return movies.getPopularMovies("en", 1);
+            } else {
                 return movies.getNowPlayingMovies("en", 1);
             }
         }catch (Exception exception){
