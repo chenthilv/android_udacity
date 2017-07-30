@@ -103,6 +103,19 @@ public class MovieDetailInfo implements Parcelable {
     }
 
     @Override
+    public boolean equals(Object obj) {
+
+        MovieDetailInfo movieDetailInfo = (MovieDetailInfo) obj;
+
+        return (movieId == movieDetailInfo.getMovieId());
+    }
+
+    @Override
+    public int hashCode() {
+        return String.valueOf(movieId).hashCode();
+    }
+
+    @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(movieId);
         dest.writeString(title);
@@ -111,5 +124,14 @@ public class MovieDetailInfo implements Parcelable {
         dest.writeString(overview);
         dest.writeString(releaseDate);
         dest.writeInt(runTime);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Movie Id : ").append(movieId).append(System.lineSeparator());
+        stringBuilder.append("Movie Title : ").append(title).append(System.lineSeparator());
+        stringBuilder.append("Movie Poster Path : ").append(moviePosterPath).append(System.lineSeparator());
+        return stringBuilder.toString();
     }
 }

@@ -18,6 +18,7 @@ import android.widget.ListView;
 import com.hollywood.movies.BuildConfig;
 import com.hollywood.movies.MainFragment;
 import com.hollywood.movies.R;
+import com.hollywood.movies.model.MovieDetailInfo;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MoviewViewHo
 
     private MovieDetailViewHandler onClickHandler;
 
-    private List<MovieDb> movieList = new ArrayList<>();
+    private List<MovieDetailInfo> movieList = new ArrayList<>();
 
     public MovieAdapter(MovieDetailViewHandler onClickHandler){
         this.onClickHandler = onClickHandler;
@@ -42,7 +43,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MoviewViewHo
 
 
     public interface MovieDetailViewHandler{
-        public void onMovieClick(MovieDb movieDb);
+        public void onMovieClick(MovieDetailInfo movieDetailInfo );
     }
 
     @Override
@@ -59,8 +60,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MoviewViewHo
         holder.bind(movieList.get(position));
     }
 
-    public void loadMovies(MovieResultsPage movies){
-        movieList = movies.getResults();
+    public void loadMovies(List<MovieDetailInfo> movies){
+        movieList = movies;
         notifyDataSetChanged();
     }
 
@@ -80,10 +81,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MoviewViewHo
             movieView.setOnClickListener(this);
         }
 
-        void bind(MovieDb movieDb){
+        void bind(MovieDetailInfo movieDetailInfo){
 
             Picasso.with(imageView.getContext())
-                    .load(BuildConfig.POSTER_PATH+movieDb.getPosterPath())
+                    .load(BuildConfig.POSTER_PATH+movieDetailInfo.getMoviePosterPath())
                     .into(imageView);
             imageView.setVisibility(ImageView.VISIBLE);
 
@@ -92,8 +93,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MoviewViewHo
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
-            MovieDb movieDb =  movieList.get(position);
-            onClickHandler.onMovieClick(movieDb);
+            MovieDetailInfo movieDetailInfo =  movieList.get(position);
+            onClickHandler.onMovieClick(movieDetailInfo);
         }
     }
 

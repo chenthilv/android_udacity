@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         }else if(id == R.id.popular_movies){
             mainFragment.loadMovies("popularMovies");
         }else if(id == R.id.favorite_button){
-            System.out.println("fav button clicked******");
             mainFragment.loadMovies("favouriteMovies");
         }
 

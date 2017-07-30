@@ -129,8 +129,11 @@ public class MovieDetailInfoFragment extends Fragment implements LoaderManager.L
 
     private void saveFavouriteMovies(MovieDb movieDb){
         System.out.println("Favorite movie---->"+movieDb.getTitle());
+        Uri uri = FavMoviesEntry.CONTENT_URI;
         ContentValues contentValues = new ContentValues();
         contentValues.put(FavMoviesEntry.COLUMN_MOVIE_ID, movieDb.getId());
+        contentValues.put(FavMoviesEntry.COLUMN_POSTER_PATH, movieDb.getPosterPath());
+        getContext().getContentResolver().insert(uri,contentValues);
 /*        contentValues.put(FavMoviesEntry.COLUMN_POSTER_PATH, movieDb.getPosterPath());
         contentValues.put(FavMoviesEntry.COLUMN_RATING, movieDb.getUserRating());
         contentValues.put(FavMoviesEntry.COLUMN_RUN_TIME, movieDb.getRuntime());

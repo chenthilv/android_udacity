@@ -30,6 +30,8 @@ import com.hollywood.movies.task.FetchMoviesTask;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.List;
+
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbMovies;
 import info.movito.themoviedbapi.model.MovieDb;
@@ -42,7 +44,7 @@ import static com.hollywood.movies.R.id.progressBar;
  * A simple {@link Fragment} subclass.
  */
 public class MainFragment extends Fragment implements
-        MovieAdapter.MovieDetailViewHandler, LoaderManager.LoaderCallbacks<MovieResultsPage>
+        MovieAdapter.MovieDetailViewHandler, LoaderManager.LoaderCallbacks<List<MovieDetailInfo>>
         {
 
 
@@ -73,7 +75,7 @@ public class MainFragment extends Fragment implements
         movieAdapter = new MovieAdapter(this);
         recyclerView.setAdapter(movieAdapter);
 
-        loadMovies("");
+        loadMovies(null);
 
         return fragmentView;
     }
@@ -87,6 +89,7 @@ public class MainFragment extends Fragment implements
 
         progressBar.setVisibility(View.VISIBLE);
 
+        System.out.println("sory by-----"+loaderManager.getLoader(MOVIE_IMAGE_LOADER));
         if(loaderManager.getLoader(MOVIE_IMAGE_LOADER) == null) {
             loaderManager.initLoader(MOVIE_IMAGE_LOADER, bundle, this);
         }else{
@@ -95,7 +98,7 @@ public class MainFragment extends Fragment implements
     }
 
     @Override
-    public void onMovieClick(MovieDb movieDb) {
+    public void onMovieClick(MovieDetailInfo movieDetailInfo) {
 
         Context context = this.getContext();
 
@@ -103,16 +106,7 @@ public class MainFragment extends Fragment implements
 
         Intent intent = new Intent(context,movieDetailInfoActivityClass);
 
-       /* MovieDetailInfo movieDetailInfo = new MovieDetailInfo();
-        movieDetailInfo.setTitle(movieDb.getTitle());
-        movieDetailInfo.setMoviePosterPath(movieDb.getPosterPath());
-        movieDetailInfo.setOverview(movieDb.getOverview());
-        movieDetailInfo.setRating(movieDb.getVoteAverage());
-        movieDetailInfo.setReleaseDate(movieDb.getReleaseDate());
-        movieDetailInfo.setRunTime(movieDb.getRuntime());
-        movieDetailInfo.setMovieId(movieDb.getId());*/
-
-        intent.putExtra("movieId",movieDb.getId());
+        intent.putExtra("movieId",movieDetailInfo.getMovieId());
 
         startActivity(intent);
 
@@ -120,12 +114,12 @@ public class MainFragment extends Fragment implements
 
 
     @Override
-    public Loader<MovieResultsPage> onCreateLoader(int id, Bundle args) {
+    public Loader<List<MovieDetailInfo>> onCreateLoader(int id, Bundle args) {
         return new FetchMovieInfoLoader(this.getContext(),args);
     }
 
     @Override
-    public void onLoadFinished(Loader<MovieResultsPage> loader, MovieResultsPage data) {
+    public void onLoadFinished(Loader<List<MovieDetailInfo>> loader, List<MovieDetailInfo> data) {
 
         progressBar.setVisibility(View.INVISIBLE);
         if(data != null) {
@@ -137,7 +131,7 @@ public class MainFragment extends Fragment implements
     }
 
     @Override
-    public void onLoaderReset(Loader<MovieResultsPage> loader) {
+    public void onLoaderReset(Loader<List<MovieDetailInfo>> loader) {
 
     }
 

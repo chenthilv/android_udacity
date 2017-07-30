@@ -23,15 +23,6 @@ public class FavMoviesContract {
         public static final String COLUMN_MOVIE_ID = "movie_id";
         public static final String COLUMN_POSTER_PATH = "poster_path";
 
-        /*public static final String COLUMN_TITLE = "title";
-        public static final String COLUMN_RELEASE_DATE = "release_date";
-        public static final String COLUMN_RATING = "rating";
-        public static final String COLUMN_RUN_TIME = "run_time";
-        public static final String COLUMN_REVIEWS = "reviews";
-        public static final String COLUMN_VIDEOS = "videos";
-        */
-
-
     }
 
 }

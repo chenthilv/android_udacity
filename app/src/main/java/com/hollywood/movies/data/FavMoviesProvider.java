@@ -29,10 +29,7 @@ public class FavMoviesProvider extends ContentProvider {
 
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = FavMoviesContract.CONTENT_AUTHORITY;
-
         matcher.addURI(authority, FavMoviesContract.PATH_FAV_MOVIES, FAVORITES);
-        //matcher.addURI(authority, FavMoviesContract.PATH_FAV_MOVIES + "/#", CODE_WEATHER_WITH_DATE);
-
         return matcher;
     }
 
