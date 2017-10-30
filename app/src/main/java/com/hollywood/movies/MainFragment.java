@@ -82,11 +82,8 @@ public class MainFragment extends Fragment implements
 
         loaderManager = getActivity().getLoaderManager();
 
-        System.out.println("*****on Create view called ******"+savedInstanceState);
-
         if(savedInstanceState != null){
 
-            System.out.println("*********Instance state is not null...retrieving from cache********");
             sortBy = savedInstanceState.getString(SAVED_MOVIES_SORT_BY);
             if(savedInstanceState.containsKey(SAVED_MOVIES)){
                 List<MovieDetailInfo> movieDetailInfoList = savedInstanceState.getParcelableArrayList(SAVED_MOVIES);
@@ -105,7 +102,6 @@ public class MainFragment extends Fragment implements
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        System.out.println("Saving instance state*****");
         ArrayList<MovieDetailInfo> movieDetailInfoList = (ArrayList)movieAdapter.getMovieList();
 
         if(movieDetailInfoList != null && !movieDetailInfoList.isEmpty()){

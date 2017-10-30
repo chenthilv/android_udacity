@@ -66,7 +66,6 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewiewH
         }
 
         void bind(Reviews reviews){
-            System.out.println("Review : "+reviews.getId());
             reviewAuthor.setText(reviews.getAuthor());
             reviewContent.setText(reviews.getContent());
         }

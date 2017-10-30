@@ -50,7 +50,6 @@ public class FetchMoreMovieInfoLoader extends AsyncTaskLoader<MovieDb> {
     public MovieDb loadInBackground() {
         int movieId = movieBundle.getInt("movieId");
 
-        System.out.println("Movie Id**********"+movieId);
         try {
             TmdbApi tmdbApi = new TmdbApi(API_KEY);
             MovieDb movies = tmdbApi.getMovies().getMovie(movieId, "en", TmdbMovies.MovieMethod.reviews, TmdbMovies.MovieMethod.videos);
