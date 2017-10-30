@@ -65,6 +65,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MoviewViewHo
         notifyDataSetChanged();
     }
 
+    public List<MovieDetailInfo> getMovieList(){
+        return movieList;
+    }
+
     @Override
     public int getItemCount() {
         return movieList.size();

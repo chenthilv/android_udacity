@@ -10,6 +10,7 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hollywood.movies.adapter.ReviewAdapter;
 
@@ -39,6 +41,9 @@ import static com.hollywood.movies.R.id.progressBar;
 import static java.lang.System.load;
 import com.hollywood.movies.data.FavMoviesContract.FavMoviesEntry;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by chenthil on 7/16/17.
  */
@@ -57,6 +62,12 @@ public class MovieDetailInfoFragment extends Fragment implements LoaderManager.L
     private static final int MOVIE_REVIEW_LOADER = 101;
 
     private static final int MOVIE_TRAILER_LOADER = 102;
+
+    ImageView favImageView = null;
+
+    GridLayoutManager gridLayoutManager = null;
+
+    static Map<Integer,Boolean> favStatusMap = new HashMap<>();
 
     @Nullable
     @Override
@@ -78,6 +89,9 @@ public class MovieDetailInfoFragment extends Fragment implements LoaderManager.L
         LinearLayoutManager trailerLinearLayoutManager = new LinearLayoutManager(this.getContext(),LinearLayoutManager.VERTICAL, false);
         trailerRecyclerView.setLayoutManager(trailerLinearLayoutManager);
 
+        /*gridLayoutManager = new GridLayoutManager(this.getContext(),2);
+        trailerRecyclerView.setLayoutManager(gridLayoutManager);*/
+
         progressBar = (ProgressBar) fragmentView.findViewById(R.id.progressBarDetailView);
 
         Intent intent = getActivity().getIntent();
@@ -87,8 +101,6 @@ public class MovieDetailInfoFragment extends Fragment implements LoaderManager.L
         if(intent.hasExtra("movieId")){
             movieId = intent.getIntExtra("movieId",0);
         }
-
-        System.out.println("Movie Id*******************"+movieId);
 
         LoaderManager loaderManager = getActivity().getLoaderManager();
 
@@ -115,34 +127,41 @@ public class MovieDetailInfoFragment extends Fragment implements LoaderManager.L
         ((TextView)fragmentView.findViewById(R.id.movie_release_date)).setText(movieDb.getReleaseDate());
         ((TextView)fragmentView.findViewById(R.id.movie_headline)).setText(movieDb.getTitle());
         ((TextView)fragmentView.findViewById(R.id.movie_overview)).setText(movieDb.getOverview());
-        ImageView favImageView = (ImageView) fragmentView.findViewById(R.id.favorite_button);
+        favImageView = (ImageView) fragmentView.findViewById(R.id.favorite_button);
 
+        if(favStatusMap.containsKey(movieDb.getId())) {
+            favImageView.setSelected(favStatusMap.get(movieDb.getId()));
+        }
         favImageView.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
-                saveFavouriteMovies(movieDb);
+                v.setSelected(!v.isSelected());
+                if(v.isSelected()){
+                    saveFavouriteMovies(movieDb);
+                }else{
+                    deleteFavouriteMovies(movieDb);
+                }
+
             }
         });
-
     }
 
     private void saveFavouriteMovies(MovieDb movieDb){
-        System.out.println("Favorite movie---->"+movieDb.getTitle());
         Uri uri = FavMoviesEntry.CONTENT_URI;
         ContentValues contentValues = new ContentValues();
         contentValues.put(FavMoviesEntry.COLUMN_MOVIE_ID, movieDb.getId());
         contentValues.put(FavMoviesEntry.COLUMN_POSTER_PATH, movieDb.getPosterPath());
+        favStatusMap.put(movieDb.getId(),true);
         getContext().getContentResolver().insert(uri,contentValues);
-/*        contentValues.put(FavMoviesEntry.COLUMN_POSTER_PATH, movieDb.getPosterPath());
-        contentValues.put(FavMoviesEntry.COLUMN_RATING, movieDb.getUserRating());
-        contentValues.put(FavMoviesEntry.COLUMN_RUN_TIME, movieDb.getRuntime());
-        contentValues.put(FavMoviesEntry.COLUMN_RELEASE_DATE, movieDb.getReleaseDate());
-        contentValues.put(FavMoviesEntry.COLUMN_TITLE, movieDb.getTitle());
-        contentValues.put(FavMoviesEntry.COLUMN_REVIEWS, movieDb.getReviews());*/
-
     }
 
+    private void deleteFavouriteMovies(MovieDb movieDb){
+        Uri uri = FavMoviesEntry.CONTENT_URI;
+        String selection = FavMoviesEntry.COLUMN_MOVIE_ID+"="+movieDb.getId();
+        favStatusMap.put(movieDb.getId(),false);
+        getContext().getContentResolver().delete(uri,selection, null);
+    }
 
     @Override
     public Loader<MovieDb> onCreateLoader(int id, Bundle args) {
@@ -152,21 +171,17 @@ public class MovieDetailInfoFragment extends Fragment implements LoaderManager.L
     @Override
     public void onLoadFinished(Loader<MovieDb> loader, MovieDb data) {
         if(data == null){
-
+            Toast.makeText(getContext(),"No Movies found",Toast.LENGTH_LONG);
         }else{
             loadMovieInfoFragment(data);
-            reviewAdapter.loadReviews(data.getReviews());
+            if(data.getReviews().size() == 0){
+                fragmentView.findViewById(R.id.review_info).findViewById(R.id.no_review_content).setVisibility(View.VISIBLE);
+            }else {
+                reviewAdapter.loadReviews(data.getReviews());
+            }
+            //gridLayoutManager.setSpanCount(data.getVideos().size());
             trailerAdapter.loadTrailers(data.getVideos());
             progressBar.setVisibility(View.INVISIBLE);
-
-//            System.out.println("Reviews*******"+data.getTitle());
-//            System.out.println("Reviews*******"+data.getPosterPath());
-//            System.out.println("Reviews*******"+data.getReleaseDate());
-//            System.out.println("Reviews*******"+data.getOverview());
-//            System.out.println("Reviews*******"+data.getRuntime());
-//
-            System.out.println("Videos*******"+data.getVideos().get(0).getId());
-//            System.out.println("Reviews*******"+data.getReviews());
         }
     }
 

@@ -30,6 +30,7 @@ import com.hollywood.movies.task.FetchMoviesTask;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import info.movito.themoviedbapi.TmdbApi;
@@ -53,6 +54,10 @@ public class MainFragment extends Fragment implements
     private ProgressBar progressBar;
 
     private static final int MOVIE_IMAGE_LOADER = 100;
+    private static final String SAVED_MOVIES = "SAVED_MOVIES";
+    private static final String SAVED_MOVIES_SORT_BY = "sortBy";
+    private String sortBy;
+    private LoaderManager loaderManager;
 
     public MainFragment() {
         // Required empty public constructor
@@ -75,21 +80,48 @@ public class MainFragment extends Fragment implements
         movieAdapter = new MovieAdapter(this);
         recyclerView.setAdapter(movieAdapter);
 
-        loadMovies(null);
+        loaderManager = getActivity().getLoaderManager();
+
+        System.out.println("*****on Create view called ******"+savedInstanceState);
+
+        if(savedInstanceState != null){
+
+            System.out.println("*********Instance state is not null...retrieving from cache********");
+            sortBy = savedInstanceState.getString(SAVED_MOVIES_SORT_BY);
+            if(savedInstanceState.containsKey(SAVED_MOVIES)){
+                List<MovieDetailInfo> movieDetailInfoList = savedInstanceState.getParcelableArrayList(SAVED_MOVIES);
+                movieAdapter.loadMovies(movieDetailInfoList);
+
+            }
+        }else {
+            loadMovies(null);
+        }
 
         return fragmentView;
     }
 
 
-    public void loadMovies(String sortBy){
-        LoaderManager loaderManager = getActivity().getLoaderManager();
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
+        System.out.println("Saving instance state*****");
+        ArrayList<MovieDetailInfo> movieDetailInfoList = (ArrayList)movieAdapter.getMovieList();
+
+        if(movieDetailInfoList != null && !movieDetailInfoList.isEmpty()){
+            outState.putParcelableArrayList(SAVED_MOVIES,movieDetailInfoList);
+        }
+        outState.putString(SAVED_MOVIES_SORT_BY,this.sortBy);
+
+    }
+
+    public void loadMovies(String sortBy){
+
+        this.sortBy = sortBy;
         Bundle bundle = new Bundle();
         bundle.putString("sortBy", sortBy);
-
         progressBar.setVisibility(View.VISIBLE);
 
-        System.out.println("sory by-----"+loaderManager.getLoader(MOVIE_IMAGE_LOADER));
         if(loaderManager.getLoader(MOVIE_IMAGE_LOADER) == null) {
             loaderManager.initLoader(MOVIE_IMAGE_LOADER, bundle, this);
         }else{
@@ -132,7 +164,7 @@ public class MainFragment extends Fragment implements
 
     @Override
     public void onLoaderReset(Loader<List<MovieDetailInfo>> loader) {
-
+        loaderManager.destroyLoader(MOVIE_IMAGE_LOADER);
     }
 
 }

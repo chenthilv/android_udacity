@@ -19,6 +19,8 @@ import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.Reviews;
 import info.movito.themoviedbapi.model.Video;
 
+import static com.hollywood.movies.R.drawable.trailer;
+
 /**
  * Created by chenthil on 7/15/17.
  */
@@ -47,7 +49,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
 
     @Override
     public void onBindViewHolder(TrailerViewHolder holder, int position) {
-        holder.bind(trailerList.get(position));
+        holder.bind(trailerList.get(position),position);
     }
 
     public void loadTrailers(List<Video> trailerList){
@@ -57,7 +59,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
 
     @Override
     public int getItemCount() {
-        return trailerList.size();
+        return (trailerList.size() > 3)?3:trailerList.size();
     }
 
     class TrailerViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
@@ -71,14 +73,9 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
             movieView.setOnClickListener(this);
         }
 
-        void bind(Video video){
+        void bind(Video video,int position){
 
-            System.out.println("Video name------->"+video.getName());
-            System.out.println("Video Id------->"+video.getId());
-            System.out.println("Video Key------->"+video.getKey());
-            System.out.println("Video Type------->"+video.getType());
-            trailerView.setText(video.getName());
-
+           trailerView.setText(video.getType() + " - " + (position + 1)+ System.lineSeparator());
         }
 
         @Override
