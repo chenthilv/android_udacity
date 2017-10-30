@@ -19,7 +19,6 @@ import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.Reviews;
 import info.movito.themoviedbapi.model.Video;
 
-import static com.hollywood.movies.R.drawable.trailer;
 
 /**
  * Created by chenthil on 7/15/17.
